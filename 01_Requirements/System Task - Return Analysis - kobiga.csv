@@ -1,0 +1,17 @@
+Listing ID,SKU,Product Title,Account,Market Place,Total Orders,Returns,Return Rate,Last Month Returns,Last Month Returns %,Last Year Returns,Last Year Returns %,Refund (£),Return Cost (£),Main Return Reason,Return Rank,Negative Feedback,Open Cases,Stock,Ad Spend (£),Ad Sales (£),ACOS,ROAS
+,LS1001,Industrial Pendant Light,LEDSONE,uk,421,24,5.70%,21,,18,,620,280,Damaged,#1,4,1,845,380,"3,620",10.50%,9.53
+,LS1025,Edison Bulb 6 Pack,Electricalsone,DE,512,18,3.52%,16,,13,,420,160,Broken Glass,#2,2,0,"2,150",345,"2,860",12.06%,8.29
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+Metric,Formula,,,,,,,,,,,,,,,,,,,,,
+Return Rate %,Returns ÷ Total Orders × 100,,,,,,,,,,,,,,,,,,,,,
+Last Month Return %,Last Month Returns ÷ Last Month Orders × 100,,,,,,,,,,,,,,,,,,,,,
+Last Year Return %,Last Year Returns ÷ Last Year Orders × 100,,,,,,,,,,,,,,,,,,,,,
+Return Cost per Return,Return Cost ÷ Returns,,,,,,,,,,,,,,,,,,,,,
+Refund per Return,Refund Amount ÷ Returns,,,,,,,,,,,,,,,,,,,,,
+Total Return Loss,Refund + Return Cost,,,,,,,,,,,,,,,,,,,,,
+Return Loss per Order,Total Return Loss ÷ Total Orders,,,,,,,,,,,,,,,,,,,,,
+ACOS,Ad Spend ÷ Ad Sales × 100,,,,,,,,,,,,,,,,,,,,,
+ROAS,Ad Sales ÷ Ad Spend,,,,,,,,,,,,,,,,,,,,,

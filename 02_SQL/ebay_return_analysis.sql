@@ -56,8 +56,12 @@ period_returns AS (
     GROUP BY rb.listing_id, rb.sku
 ),
 
+-- Last Month Refund comes from the same July return population and grain as
+-- Last Month Returns. returns_base holds one row per return (res_his_order = 0,
+-- 1:1 order-line join), so SUM counts each return's refund exactly once.
 last_month_returns AS (
-    SELECT rb.listing_id, rb.sku, COUNT(DISTINCT rb.return_id) AS returns
+    SELECT rb.listing_id, rb.sku, COUNT(DISTINCT rb.return_id) AS returns,
+           SUM(rb.refund)                                       AS refund_amt
     FROM returns_base rb CROSS JOIN params p
     WHERE rb.request_date >= p.lm_start AND rb.request_date < p.lm_end
     GROUP BY rb.listing_id, rb.sku
@@ -168,6 +172,7 @@ assembled AS (
            COALESCE(lm.returns, 0)      AS lm_returns,
            COALESCE(ly.returns, 0)      AS ly_returns,
            pr.refund_amt,
+           COALESCE(lm.refund_amt, 0)   AS lm_refund_amt,
            COALESCE(rc.return_cost, 0)  AS return_cost,
            pr.main_return_reason,
            COALESCE(nf.negative_feedback, 0) AS negative_feedback,
@@ -207,6 +212,7 @@ SELECT a.listing_id                                        AS "Listing ID",
        CASE WHEN a.ly_orders > 0
             THEN ROUND(a.ly_returns / a.ly_orders * 100, 2) END          AS "Last Year Returns %",
        ROUND(a.refund_amt::numeric, 2)                     AS "Refund",
+       ROUND(a.lm_refund_amt::numeric, 2)                  AS "Last Month Refund",
        ROUND(a.return_cost::numeric, 2)                    AS "Return Cost",
        a.main_return_reason                                AS "Main Return Reason",
        RANK() OVER (ORDER BY a.returns DESC, a.refund_amt DESC)         AS "Return Rank",

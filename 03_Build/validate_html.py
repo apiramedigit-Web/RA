@@ -56,12 +56,12 @@ tr_attrs = [a for a, _ in all_tr if "no-match" not in a]
 tr = [inner for a, inner in all_tr if "no-match" not in a]
 check("Row count = dataset row count", len(tr) == DATA["row_count"],
       f"{len(tr)} rendered vs {DATA['row_count']} in dataset")
-check("Every row has all 23 cells",
-      all(len(re.findall(r"<td[^>]*>.*?</td>", r, re.S)) == 23 for r in tr),
+check(f"Every row has all {len(DATA['columns'])} cells",
+      all(len(re.findall(r"<td[^>]*>.*?</td>", r, re.S)) == len(DATA["columns"]) for r in tr),
       f"{len(tr)} rows checked")
 
 # 4. rendered values reproduce the dataset values (no drift, no fabrication)
-MONEY = {"Refund (£)", "Return Cost (£)", "Ad Spend (£)", "Ad Sales (£)"}
+MONEY = {"Refund (£)", "Last Month Refund (£)", "Return Cost (£)", "Ad Spend (£)", "Ad Sales (£)"}
 PERCENT = {"Return Rate", "Last Month Returns %", "Last Year Returns %", "ACOS"}
 INTEGER = {"Total Orders", "Returns", "Last Month Returns", "Last Year Returns",
            "Negative Feedback", "Open Cases", "Stock"}

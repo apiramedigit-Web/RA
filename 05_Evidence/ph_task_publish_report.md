@@ -1,22 +1,22 @@
 # Return Analysis - ph_task publish report
 
-- Published: 2026-09-17T06:23:19+00:00
+- Published: 2026-09-17T12:15:47+00:00
 - Table: `tech_team_outputs.ph_task` (database `order_management_copy`)
 - project_code: `RA` · project_name: `Return Analysis` · team: `ebay_priors`
 - developer: `Apirame` · version_level 1 · status `released`
-- Source file: `C:\Users\LED 222\.codex\.chatgpt-projects\g-p-6aab65d44d94819181005f14df2faf1a\RA\06_Output\eBay_Return_Analysis.html` (169,746 chars)
-- html md5: `07a6dcc4b726d741bcfbb56192b0f4dc` — verified identical on all 7 rows before commit
+- Source file: `C:\Users\LED 222\eBay_Return_Analysis\06_Output\eBay_Return_Analysis.html` (173,077 chars)
+- html md5: `a2dcb22abbc517379f015d659e4a9e14` — verified identical on all 7 rows before commit
 - Excluded by instruction: Thasanan
 
 | Action | id | assigned_user | task_id |
 |---|---|---|---|
-| inserted | 1713 | genga | `ra_genga_return_analysis_V001` |
-| inserted | 1714 | Jarsini | `ra_Jarsini_return_analysis_V001` |
-| inserted | 1715 | kobiga | `ra_kobiga_return_analysis_V001` |
-| inserted | 1716 | powsteena | `ra_powsteena_return_analysis_V001` |
-| inserted | 1717 | Sharmilan | `ra_Sharmilan_return_analysis_V001` |
-| inserted | 1718 | Sivajitha | `ra_Sivajitha_return_analysis_V001` |
-| inserted | 1719 | Thinesh | `ra_Thinesh_return_analysis_V001` |
+| updated | 1713 | genga | `ra_genga_return_analysis_V001` |
+| updated | 1714 | Jarsini | `ra_Jarsini_return_analysis_V001` |
+| updated | 1715 | kobiga | `ra_kobiga_return_analysis_V001` |
+| updated | 1716 | powsteena | `ra_powsteena_return_analysis_V001` |
+| updated | 1717 | Sharmilan | `ra_Sharmilan_return_analysis_V001` |
+| updated | 1718 | Sivajitha | `ra_Sivajitha_return_analysis_V001` |
+| updated | 1719 | Thinesh | `ra_Thinesh_return_analysis_V001` |
 
 ## Verification performed inside the transaction
 

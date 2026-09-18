@@ -1,7 +1,7 @@
 # eBay Return Analysis - standalone HTML validation
 
 - File: `C:\Users\LED 222\eBay_Return_Analysis\06_Output\eBay_Return_Analysis.html`
-- Size: 170,646 bytes
+- Size: 174,104 bytes
 - Rows rendered: 126
 
 | # | Check | Result | Detail |
@@ -11,9 +11,9 @@
 | 3 | Runtime independence: no fetch() | **PASS** |  |
 | 4 | Runtime independence: no XMLHttpRequest | **PASS** |  |
 | 5 | Runtime independence: no CSS @import | **PASS** |  |
-| 6 | Header row = required columns, in order, nothing extra | **PASS** | 23 headers |
+| 6 | Header row = required columns, in order, nothing extra | **PASS** | 24 headers |
 | 7 | Row count = dataset row count | **PASS** | 126 rendered vs 126 in dataset |
-| 8 | Every row has all 23 cells | **PASS** | 126 rows checked |
+| 8 | Every row has all 24 cells | **PASS** | 126 rows checked |
 | 9 | Every rendered cell equals its dataset value | **PASS** | 0 mismatches |
 | 10 | Missing values render blank, never substituted | **PASS** | 263 blank cells rendered vs 263 nulls in dataset |
 | 11 | No chart / canvas / svg element | **PASS** |  |

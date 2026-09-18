@@ -76,7 +76,9 @@ def main():
         "(Listing ID, SKU, Product Title, Account, Market Place, Total Orders, Returns, "
         "Return Rate, Last Month Returns and %, Last Year Returns and %, Refund, "
         "Return Cost, Main Return Reason, Return Rank, Negative Feedback, Open Cases, "
-        "Stock, Ad Spend, Ad Sales, ACOS, ROAS). Filter by Account, Market Place, SKU "
+        "Stock, Ad Spend, Ad Sales, ACOS, ROAS) plus Last Month Refund "
+        f'({data["last_month_period"]} returns, '
+        "same Listing/SKU). Filter by Account, Market Place, SKU "
         f'and Listing ID. KPI cards: {kpi["period"]} returns this month, '
         f'{kpi["last_month"]} last month, {kpi["last_year"]} the same month last year. '
         f'Source database ledsone, snapshot {data["snapshot_utc"]}. '

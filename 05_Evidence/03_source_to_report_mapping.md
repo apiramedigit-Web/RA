@@ -40,6 +40,7 @@
 | 11 | Last Year Returns | `customer_service.ebay_returns` | `return_id` | grain | `COUNT(DISTINCT)`, last-year window | VERIFIED |
 | 12 | Last Year Returns % | *derived* | — | — | `Last Year Returns / last-year units * 100`; blank when 0 | VERIFIED |
 | 13 | Refund (£) | `customer_service.ebay_returns` | `seller_refund_amount` | grain | `SUM`, period | VERIFIED *(currency, G4)* |
+| 13b | Last Month Refund (£) | `customer_service.ebay_returns` | `seller_refund_amount` | grain | `SUM` over the same last-month returns as column 9 (`res_his_order = 0`, `request_date` in the last-month window), same Listing ID + SKU; £0 when none. **Business-approved addition 2026-09-17 — not one of the 23 PDF columns.** Same currency limit as Refund (G4) | VERIFIED *(currency, G4)* |
 | 14 | Return Cost (£) | `accounting.ebay_order_expenses` | `fee` | `item_id` = return `transaction_id`; `transaction_type='REFUND'`, `fee_type IN (FINAL_VALUE_FEE, FINAL_VALUE_FEE_FIXED_PER_ORDER)` | `SUM` over the period's returned lines | **PARTIAL** (G2) |
 | 15 | Main Return Reason | `customer_service.ebay_returns` | `reason` | grain | `MODE()` within group, raw source value | VERIFIED |
 | 16 | Return Rank | *derived* | — | — | `RANK() OVER (ORDER BY Returns DESC, Refund DESC)` | VERIFIED |

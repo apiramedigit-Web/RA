@@ -15,6 +15,9 @@ data is embedded; it needs no database, server or network connection at runtime.
 | `04_Data/` | `return_analysis_dataset.json` — the validated dataset |
 | `05_Evidence/` | Requirement extract, asset discovery, source mapping, gaps, validation reports |
 | `06_Output/` | The standalone HTML report |
+| `07_Archive/` | One folder per reporting month, never overwritten |
+| `automation/` | The monthly automation — see `automation/README.md` |
+| `logs/` | `execution.log`, `error.log`, `last_run_summary.json` |
 
 ## Rebuilding
 
@@ -30,6 +33,14 @@ python 03_Build/validate_filters.py    # 62 checks driving the filters in headle
 ```
 
 `build_dashboard.py` only reads the dataset — rendering never rewrites `04_Data/`.
+
+## Last Month Refund (£)
+
+One column added on business approval (2026-09-17), directly after `Refund (£)`, which
+stays the reporting-period (August) refund. It sums `seller_refund_amount` over the
+**same** last-month returns that `Last Month Returns` counts — `request_date` in the
+last-month window, same Listing ID + SKU, each return once. It is not one of the 23
+columns in the requirement PDF. Amounts are native currency, like `Refund (£)` (G4).
 
 ## Filtering and search
 
@@ -48,8 +59,10 @@ every filter combination. Each card is that month's true return count, so a card
 deliberately **not** the sum of the matching table column (see
 `05_Evidence/03_source_to_report_mapping.md`).
 
-If you change the reporting period, update the six date literals in
-`02_SQL/return_kpi_windows.sql` to match `ebay_return_analysis.sql`.
+If you change the reporting period **by hand**, update the six date literals in
+`02_SQL/return_kpi_windows.sql` to match `ebay_return_analysis.sql`. The monthly
+automation substitutes both files from the same calculated period, so they can
+never drift apart under it.
 
 ## Publishing to the task board
 
@@ -77,12 +90,33 @@ mismatch rolls the whole publish back.
 The server frequently runs out of connection slots; `--attempts` and `--wait` tune the
 connection retry.
 
-## Changing the reporting period
+## Monthly automation
 
-Edit the six date literals in the `params` CTE at the top of
+The report is produced automatically on the **1st of every month** by
+`automation/` — see `automation/README.md`. The reporting period is worked out
+from the run date (previous calendar month, with Last Month and Last Year
+derived from it), so no date is ever edited again.
+
+```
+powershell -ExecutionPolicy Bypass -File .\automation\scheduler.ps1 -Mode status
+python automation\run.py                  # run this month manually
+python automation\run.py --dry-run        # build and validate, publish nothing
+```
+
+The automation reuses these approved artefacts unchanged — `02_SQL/*.sql` (only
+the six `params` date literals are substituted, proven by a byte-for-byte round
+trip), `03_Build/build_dashboard.py` and `03_Build/publish_ph_task.py`. It
+validates the output independently against the live database on every row before
+publishing, and archives each month under `07_Archive/<YYYY-MM>/`.
+
+## Changing the reporting period by hand
+
+Only needed for an ad-hoc rebuild outside the monthly schedule. Edit the six
+date literals in the `params` CTE at the top of
 `02_SQL/ebay_return_analysis.sql`, then update `reporting_period`,
 `last_month_period` and `last_year_period` in `03_Build/extract_dataset.py`.
-Nothing else is period-dependent.
+Nothing else is period-dependent. The automation does not read those literals —
+it substitutes its own.
 
 ## Current run
 

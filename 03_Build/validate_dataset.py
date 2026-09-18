@@ -71,6 +71,22 @@ with psycopg.connect(dsn, connect_timeout=60) as conn:
     check("Refund total = direct DB sum", abs(report_refund - float(direct_refund)) < 0.02,
           f"report {report_refund} vs DB {direct_refund}")
 
+    # --- 4b. Last Month Refund reconciles, row by row, to July returns ---------
+    cur.execute("""
+        SELECT r.item_id::text, COALESCE(NULLIF(oi.real_sku,''), oi.item_sku),
+               ROUND(SUM(COALESCE(r.seller_refund_amount,0))::numeric, 2)
+        FROM customer_service.ebay_returns r
+        JOIN order_management.order_item_info oi ON oi.item_transaction_id = r.transaction_id
+        WHERE r.res_his_order = 0 AND r.request_date >= %s AND r.request_date < %s
+        GROUP BY 1, 2""", LM)
+    lm_direct = {(l, s): float(v) for l, s, v in cur.fetchall()}
+    lm_bad = [k for k in keys if abs(num(ROWS[keys.index(k)]["Last Month Refund (£)"]) - lm_direct.get(k, 0.0)) > 0.005]
+    report_lm_refund = round(sum(num(r["Last Month Refund (£)"]) for r in ROWS), 2)
+    direct_lm_refund = round(sum(lm_direct.get(k, 0.0) for k in keys), 2)
+    check("Last Month Refund = direct July DB sum for the same Listing+SKU (every row)",
+          not lm_bad and abs(report_lm_refund - direct_lm_refund) < 0.005,
+          f"report {report_lm_refund} vs DB {direct_lm_refund}; {len(lm_bad)} mismatched rows")
+
     # --- 5. Open Cases reconcile -------------------------------------------
     direct_open = q(cur, """
         SELECT COUNT(DISTINCT return_id) FROM customer_service.ebay_returns
@@ -203,12 +219,14 @@ check("Main Return Reason values are raw source values", not unknown, f"unexpect
 REQUIRED = [
     "Listing ID", "SKU", "Product Title", "Account", "Market Place", "Total Orders",
     "Returns", "Return Rate", "Last Month Returns", "Last Month Returns %",
-    "Last Year Returns", "Last Year Returns %", "Refund (£)", "Return Cost (£)",
+    "Last Year Returns", "Last Year Returns %", "Refund (£)",
+    "Last Month Refund (£)",  # business-approved addition (2026-09-17), not in the requirement PDF
+    "Return Cost (£)",
     "Main Return Reason", "Return Rank", "Negative Feedback", "Open Cases", "Stock",
     "Ad Spend (£)", "Ad Sales (£)", "ACOS", "ROAS",
 ]
-check("Column set = requirement, in order, nothing extra", COLUMNS == REQUIRED,
-      f"{len(COLUMNS)} columns")
+check("Column set = requirement + approved Last Month Refund, in order, nothing extra",
+      COLUMNS == REQUIRED, f"{len(COLUMNS)} columns")
 
 # Null profile of every required field
 nulls = {c: sum(1 for r in ROWS if r[c] is None) for c in COLUMNS}

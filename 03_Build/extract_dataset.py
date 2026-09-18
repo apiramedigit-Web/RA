@@ -21,7 +21,7 @@ COLUMNS = [
     "Total Orders", "Returns", "Return Rate",
     "Last Month Returns", "Last Month Returns %",
     "Last Year Returns", "Last Year Returns %",
-    "Refund (£)", "Return Cost (£)", "Main Return Reason", "Return Rank",
+    "Refund (£)", "Last Month Refund (£)", "Return Cost (£)", "Main Return Reason", "Return Rank",
     "Negative Feedback", "Open Cases", "Stock",
     "Ad Spend (£)", "Ad Sales (£)", "ACOS", "ROAS",
 ]

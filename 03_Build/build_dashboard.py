@@ -11,7 +11,7 @@ BASE = pathlib.Path(__file__).resolve().parent.parent
 DATA_FILE = BASE / "04_Data" / "return_analysis_dataset.json"
 OUT_FILE = BASE / "06_Output" / "eBay_Return_Analysis.html"
 
-MONEY = {"Refund (£)", "Return Cost (£)", "Ad Spend (£)", "Ad Sales (£)"}
+MONEY = {"Refund (£)", "Last Month Refund (£)", "Return Cost (£)", "Ad Spend (£)", "Ad Sales (£)"}
 PERCENT = {"Return Rate", "Last Month Returns %", "Last Year Returns %", "ACOS"}
 INTEGER = {"Total Orders", "Returns", "Last Month Returns", "Last Year Returns",
            "Negative Feedback", "Open Cases", "Stock"}
